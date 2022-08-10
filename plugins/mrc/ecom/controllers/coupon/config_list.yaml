@@ -1,0 +1,12 @@
+list: $/mrc/ecom/models/coupon/columns.yaml
+modelClass: Mrc\Ecom\Models\Coupon
+title: Coupon
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'mrc/ecom/coupon/update/:id'

@@ -1,0 +1,37 @@
+{% set products = __SELF__.products %}
+
+<section>
+    <div>
+        <div class="container">
+            <div class="tiles row no-gutters my-5">
+                {% if products|length %}
+                {% for product in products %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="tile"
+                        style="background-image:url('https://images.pexels.com/photos/6145852/pexels-photo-6145852.jpeg');">
+                        <div class="overlay" style="background-color:rgba(23, 65, 137, 0.75);">
+                            <h2 class="d-flex justify-content-between align-items-center">
+                                <span>{{ product.name }}</span>
+                                <a class="tile-toggle" data-toggle="collapse" href="#collapse-Tile1" role="button"
+                                    aria-expanded="false" aria-controls="collapse-Tile1"><i
+                                        class="fas fa-chevron-down fa-2x"></i></a>
+                            </h2>
+                            <div class="collapse" id="collapse-Tile1">
+                                <ul>
+                                    <li>{{ product.description }}</li>
+                                    <li>{{ product.price }}</li>
+                                    <li>{{ product.recurring_month }}</li>
+                                </ul>
+                                <a href="{{ 'checkout'|page({slug: product.slug}) }}">Purchase</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No Products</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

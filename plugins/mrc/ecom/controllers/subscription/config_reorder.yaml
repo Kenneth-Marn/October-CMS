@@ -1,0 +1,4 @@
+title: Subscription
+modelClass: Mrc\Ecom\Models\Subscription
+toolbar:
+    buttons: reorder_toolbar

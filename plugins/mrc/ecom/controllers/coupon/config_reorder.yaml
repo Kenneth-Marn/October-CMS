@@ -1,0 +1,4 @@
+title: Coupon
+modelClass: Mrc\Ecom\Models\Coupon
+toolbar:
+    buttons: reorder_toolbar

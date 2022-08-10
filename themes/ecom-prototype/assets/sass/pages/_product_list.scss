@@ -1,0 +1,95 @@
+.tile {
+    position: relative;
+    height:100%;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: center;
+    border-radius:0;
+    color: #fff !important;
+    font-family: 'Merriweather', serif;
+}
+.tile{
+    border:5px solid #fff;
+}
+.tile .overlay{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(26,59,60, 0.75);
+}
+.tile h2 {
+    margin:0;
+    text-align:left;
+    font-weight: 700;
+    font-size: 17px;
+    font-family: 'Lato', sans-serif;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+.tile h2 span{
+   padding:0 15px;
+}
+.tile p {
+    padding: 0 0 5px 0;
+}
+.tile ul{
+    padding-left:15px;
+}
+.tile li{
+    margin:15px 0;
+}
+.tile a{
+    font-size: 20px;
+    font-weight: 400;
+    color:#fff;
+}
+.tile a.btn-link{
+    margin-top:30px;
+    padding:0;
+}
+.tile a:hover{
+    font-weight:bold;
+    color:#fff;
+}
+@media (max-width: 768px){
+   .tile-toggle{
+       display:block;
+       padding:10px;
+       background-color: rgba(26,59,60, 0.75);
+       border-left:1px solid #fff;
+   }
+   .tile ul{
+       list-style: none;
+       margin:0;
+       padding:0;
+       border-top:1px solid #fff;
+   }
+   .tile ul li{
+       margin:0;
+   }
+   .tile ul li a{
+       display:block;
+       padding: 8px 22px;
+       border-bottom: 1px solid #fff; 
+   }
+   .tile a.btn-link{
+       margin-top:0;
+       padding: 8px 22px;
+   }
+}
+/*Medium devices (tablets, 768px or more)*/
+@media (min-width: 768px) {
+   /*Tiles To Accordions*/
+    .tiles .tile .overlay{
+       padding: 60px;
+    }
+    .tile h2{
+       font-size: 35px;
+    }
+    .tiles .tile .tile-toggle{
+        display:none;
+    }
+    .tiles .tile .collapse{
+        display:block;
+   }
+}

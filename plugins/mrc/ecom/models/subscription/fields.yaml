@@ -1,0 +1,30 @@
+fields:
+    user:
+        label: User
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+    product:
+        label: Product
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+    start_date:
+        label: 'Start Date'
+        mode: date
+        span: auto
+        readOnly: 1
+        type: datepicker
+    end_date:
+        label: 'End Date'
+        mode: date
+        span: auto
+        readOnly: 1
+        type: datepicker
+    disabled_at:
+        label: 'Disable At'
+        mode: datetime
+        span: auto
+        type: datepicker

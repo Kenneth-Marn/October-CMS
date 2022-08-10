@@ -1,0 +1,12 @@
+url = "/"
+layout = "default"
+title = "Home page"
+
+[productlist]
+
+[session]
+security = "user"
+redirect = "login"
+==
+{% component 'session' %}
+{% component 'productlist' %}

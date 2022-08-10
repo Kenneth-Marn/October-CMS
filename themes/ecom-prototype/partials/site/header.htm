@@ -1,0 +1,25 @@
+==
+<?
+function onStart()
+{
+    $this['backendUrl'] = System::checkDebugMode() ? Backend::url('/') : null;
+}
+?>
+==
+{% set activeNavLink = activeNavLink|default(this.page.id) %}
+
+<!-- Nav -->
+<nav id="layout-nav" class="navbar fixed-top navbar-expand-lg navbar-dark navbar-autohide">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" data-request="onLogout" data-request-data="redirect: '/login'">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

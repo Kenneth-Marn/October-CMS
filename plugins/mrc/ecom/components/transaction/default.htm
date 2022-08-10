@@ -1,0 +1,97 @@
+{% set product = __SELF__.product %}
+
+<div className="container">
+    <header>
+        <h1>Test Checkout with Micro-Stripe</h1>
+        <p>Use <code>4242 4242 4242 4242</code> and any CVC and future expiration date</p>
+    </header>
+    <form id="payment-form" data-request="onPurchaseSubmit"
+        data-request-complete="clearToken(this, context, data, textStatus, jqXHR);" data-request-flash
+        data-request-validate>
+        <div class="error-msg" data-validate-for="generalerror"></div>
+        <div class="group">
+            <label>
+                <span>Card</span>
+                <div id="card-element" class="field"></div>
+                <!-- Used to display form errors. -->
+            </label>
+        </div>
+        <a href="javascript:void(0);"
+            class="im-button im-questions__get-results im-button__filled d-inline-flex align-items-center justify-content-center submitPayment"
+            data-attach-loading>
+            Submit Payment<svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="9" height="16" viewBox="0 0 9 16">
+                <g>
+                    <g transform="rotate(-90 4.5 8)">
+                        <path fill="#fff"
+                            d="M4.495 11.903c.19 0 .408-.081.572-.218L11.74 5.42a.79.79 0 0 0 .027-1.144.79.79 0 0 0-1.144-.027l-6.13 5.72-6.128-5.748c-.327-.3-.845-.3-1.145.028-.3.327-.3.844.028 1.144l6.674 6.265a.83.83 0 0 0 .572.245z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </a>
+        <div class="outcome">
+            <div id="card-errors" role="alert"></div>
+            <div class="success">
+                Success! Your Stripe token is <span class="token"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% put scripts %}
+<script>
+
+    // Create a Stripe client.
+    var stripe = Stripe("{{ stripePublicKey }}");
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: "#32325d",
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#aab7c4"
+            }
+        },
+        invalid: {
+            color: "#fa755a",
+            iconColor: "#fa755a"
+        }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create("card", { hidePostalCode: true, style: style });
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount("#card-element");
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener("change", function (event) {
+        var displayError = document.getElementById("card-errors");
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = "";
+        }
+    });
+
+    function clearToken(form, text, data, textStatus, jqXHR) {
+
+        $('input[name="stripeToken"]').remove();
+        if (textStatus == 'success') {
+            $('#payment-form').each(function () {
+                this.reset();
+            });
+            card.clear();
+        }
+
+        $('.subitPayment').attr('disabled', false);
+    }
+</script>
+{% endput %}

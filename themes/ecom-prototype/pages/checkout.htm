@@ -1,0 +1,10 @@
+url = "/checkout/:slug"
+layout = "default"
+title = "checkout"
+
+[transaction]
+
+[session]
+security = "user"
+==
+{% component 'session' %}{% component 'transaction' %}

@@ -1,0 +1,11 @@
+name: Coupon
+modelClass: Mrc\Ecom\Models\Coupon
+form: $/mrc/ecom/models/coupon/fields.yaml
+defaultRedirect: mrc/ecom/coupon
+create:
+    redirect: 'mrc/ecom/coupon/update/:id'
+    redirectClose: mrc/ecom/coupon
+update:
+    redirect: mrc/ecom/coupon
+    redirectClose: mrc/ecom/coupon
+preview: {  }

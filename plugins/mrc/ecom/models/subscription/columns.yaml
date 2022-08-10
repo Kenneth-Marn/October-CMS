@@ -1,0 +1,9 @@
+columns:
+    user_name:
+        label: 'User Name'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+        select: name
+        relation: user

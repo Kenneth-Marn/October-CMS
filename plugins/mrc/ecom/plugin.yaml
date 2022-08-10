@@ -1,0 +1,24 @@
+plugin:
+    name: 'mrc.ecom::lang.plugin.name'
+    description: 'mrc.ecom::lang.plugin.description'
+    author: MRC
+    icon: oc-icon-adjust
+    homepage: ''
+navigation:
+    Ecome:
+        label: Ecom
+        url: mrc/ecom/product
+        icon: icon-life-ring
+        sideMenu:
+            Subscription:
+                label: Subscription
+                url: mrc/ecom/subscription
+                icon: icon-sitemap
+            Product:
+                label: Product
+                url: mrc/ecom/product
+                icon: icon-sitemap
+            Coupon:
+                label: Coupon
+                url: mrc/ecom/coupon
+                icon: icon-sitemap

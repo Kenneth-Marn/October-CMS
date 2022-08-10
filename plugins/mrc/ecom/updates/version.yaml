@@ -1,0 +1,38 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table mrc_ecom_products'
+    - builder_table_create_mrc_ecom_products.php
+1.0.3:
+    - 'Updated table mrc_ecom_products'
+    - builder_table_update_mrc_ecom_products.php
+1.0.4:
+    - 'Updated table mrc_ecom_products'
+    - builder_table_update_mrc_ecom_products_2.php
+1.0.5:
+    - 'Updated table mrc_ecom_products'
+    - builder_table_update_mrc_ecom_products_3.php
+1.0.6:
+    - 'Created table mrc_ecom_users_subscriptions'
+    - builder_table_create_mrc_ecom_users_subscriptions.php
+1.0.7:
+    - 'Updated table mrc_ecom_users_subscriptions'
+    - builder_table_update_mrc_ecom_users_subscriptions.php
+1.0.8:
+    - 'Updated table mrc_ecom_users_subscriptions'
+    - builder_table_update_mrc_ecom_users_subscriptions_2.php
+1.0.9:
+    - 'Updated table users'
+    - update_users_table_add_stripe_customer_id.php
+1.0.10:
+    - 'Updated table mrc_ecom_users_subscriptions'
+    - builder_table_update_mrc_ecom_users_subscriptions_3.php
+1.0.11:
+    - 'Created table mrc_ecom_coupons'
+    - builder_table_create_mrc_ecom_coupons.php
+1.0.12:
+    - 'Created table mrc_ecom_coupons_users'
+    - builder_table_create_mrc_ecom_coupons_users.php
+1.0.13:
+    - 'Created table mrc_ecom_coupons_products'
+    - builder_table_create_mrc_ecom_coupons_products.php

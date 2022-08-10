@@ -1,0 +1,11 @@
+name: Product
+modelClass: Mrc\Ecom\Models\Product
+form: $/mrc/ecom/models/product/fields.yaml
+defaultRedirect: mrc/ecom/product
+create:
+    redirect: 'mrc/ecom/product/update/:id'
+    redirectClose: mrc/ecom/product
+update:
+    redirect: mrc/ecom/product
+    redirectClose: mrc/ecom/product
+preview: {  }

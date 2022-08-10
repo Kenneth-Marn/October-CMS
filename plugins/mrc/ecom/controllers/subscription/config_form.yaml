@@ -1,0 +1,10 @@
+name: Subscription
+form: $/mrc/ecom/models/subscription/fields.yaml
+modelClass: Mrc\Ecom\Models\Subscription
+defaultRedirect: mrc/ecom/subscription
+create:
+    redirect: 'mrc/ecom/subscription/update/:id'
+    redirectClose: mrc/ecom/subscription
+update:
+    redirect: mrc/ecom/subscription
+    redirectClose: mrc/ecom/subscription

@@ -1,0 +1,43 @@
+fields:
+    name:
+        label: Name
+        span: left
+        placeholder: name
+        required: 1
+        type: text
+        commentAbove: 'Product Name'
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text
+    description:
+        label: Description
+        span: left
+        placeholder: Description
+        required: 1
+        type: text
+        commentAbove: 'Product Description'
+    price:
+        label: Price
+        span: right
+        required: 1
+        type: number
+    recurring_month:
+        label: 'Recurring Month'
+        span: left
+        required: 1
+        type: number
+    stripe_price_id:
+        label: 'Stripe Price Id'
+        span: auto
+        readOnly: 1
+        required: 0
+        type: text
+    stripe_product_id:
+        label: 'Stripe Product Id'
+        span: auto
+        readOnly: 1
+        type: text

@@ -1,0 +1,26 @@
+columns:
+    id:
+        label: Id
+        type: number
+        searchable: true
+        sortable: true
+    name:
+        label: Name
+        type: text
+        searchable: true
+        sortable: true
+    price:
+        label: Price
+        type: number
+        searchable: true
+        sortable: true
+    recurring_month:
+        label: 'Recurring Month'
+        type: number
+        searchable: true
+        sortable: true
+    stripe_price_id:
+        label: 'Stripe Price Id'
+        type: text
+        searchable: true
+        sortable: true
