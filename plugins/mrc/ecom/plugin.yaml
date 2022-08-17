@@ -22,3 +22,7 @@ navigation:
                 label: Coupon
                 url: mrc/ecom/coupon
                 icon: icon-sitemap
+            Invoice:
+                label: Invoice
+                url: /mrc/ecom/invoice
+                icon: icon-sitemap

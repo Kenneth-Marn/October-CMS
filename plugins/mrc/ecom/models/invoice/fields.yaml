@@ -1,0 +1,70 @@
+fields:
+    user:
+        label: User
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        readOnly: 1
+        type: relation
+    product:
+        label: Product
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        readOnly: 1
+        type: relation
+    billing_reason:
+        label: 'Biling Reason'
+        span: auto
+        readOnly: 1
+        type: text
+    amount_due:
+        label: 'Amount Due'
+        span: auto
+        readOnly: 1
+        type: number
+    amount_paid:
+        label: 'Amount Paid'
+        span: auto
+        readOnly: 1
+        type: number
+    amount_remaining:
+        label: 'Amount Remaing'
+        span: auto
+        readOnly: 1
+        type: number
+    attempt_count:
+        label: 'Attempt Count'
+        span: auto
+        readOnly: 1
+        type: number
+    total:
+        label: Total
+        span: auto
+        readOnly: 1
+        type: number
+    paid:
+        label: Paid
+        span: auto
+        readOnly: 1
+        type: switch
+    status:
+        label: Status
+        span: auto
+        readOnly: 1
+        type: text
+    stripe_subscription_id:
+        label: 'Stripe Subscription Id'
+        span: auto
+        readOnly: 1
+        type: text
+    stripe_customer_id:
+        label: 'Stripe Customer Id'
+        span: auto
+        readOnly: 1
+        type: text
+    stripe_invoice_id:
+        label: 'Stripe Invoice Id'
+        span: auto
+        readOnly: 1
+        type: text

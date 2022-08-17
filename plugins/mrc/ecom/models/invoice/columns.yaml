@@ -1,0 +1,48 @@
+columns:
+    id:
+        label: ID
+        type: number
+        searchable: true
+        sortable: true
+    billing_reason:
+        label: 'Biling Reason'
+        type: text
+        searchable: true
+        sortable: true
+    amount_due:
+        label: 'Amount Due'
+        type: number
+        searchable: true
+        sortable: true
+    amount_paid:
+        label: 'Amount Paid'
+        type: number
+        searchable: true
+        sortable: true
+    amount_remaining:
+        label: 'Amount Remaining'
+        type: number
+        searchable: true
+        sortable: true
+    attempt_count:
+        label: 'Attempt Count'
+        type: number
+        searchable: true
+        sortable: true
+    paid:
+        label: Paid
+        type: switch
+    total:
+        label: Total
+        type: number
+        searchable: true
+    total_discount_amounts:
+        label: 'Total Discount Amount'
+        type: number
+        searchable: true
+        sortable: true
+    status:
+        label: Status
+        type: text
+        searchable: true
+        sortable: true

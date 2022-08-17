@@ -1,6 +1,6 @@
 <?php
 
-namespace Mrc\Ecom\Classes\Jobs\Stripe;
+namespace Mrc\Ecom\Classes\Jobs\Stripe\Subscription;
 
 use Log;
 use Mrc\Ecom\Services\Stripe;

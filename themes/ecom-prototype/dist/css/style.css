@@ -104,179 +104,248 @@
     display: block;
   }
 }
-.container {
-  max-width: 720px;
-  padding: 100px 0;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: -o-flex;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  background-color: #262527;
+  overflow: hidden;
+}
+
+input, textarea, button {
+  font-family: "Nunito", sans-serif;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  color: #fae881;
+  overflow: hidden;
+}
+
+.flex_box {
   display: flex;
-  -moz-flex-direction: column;
-  -o-flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
-header {
-  padding-bottom: 2rem;
-}
-
-h1 {
-  margin-bottom: 0.75rem;
-}
-
-p > code {
-  padding: 5px 8px;
-  border-radius: 3px;
-  background-color: #ffffff;
-  color: #BBBFF4;
-}
-
-.form-container {
-  display: block;
-}
-
-footer {
-  width: 100%;
-  padding-top: 1rem;
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  font-weight: 500;
-  text-align: center;
+.box {
+  position: absolute;
+  background-color: black;
+  width: 50px;
+  height: 50px;
+  transition: 0.2s;
 }
 
 form {
-  max-width: 480px;
-  width: 100%;
-  margin: 20px 0;
+  padding: 30px 20px;
+  width: 320px;
+  border-radius: 7px;
+  background-color: white;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  background-color: rgba(158, 189, 199, 0.288);
+  overflow: hidden;
 }
 
-footer {
-  width: 100%;
-  max-width: 480px;
-  clear: both;
+.input {
+  display: flex;
+  flex-direction: column;
 }
 
-a {
-  color: #424770;
-  transition: color 0.4s ease-in-out;
-}
-
-a:visited {
-  color: #6772E5;
-}
-
-a:hover {
-  color: #24B47E;
-  transition: color 0.2s ease-in-out;
-}
-
-.group {
-  background: white;
-  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  margin-bottom: 20px;
+input, textarea {
+  padding: 8px 10px;
+  margin: 3px 8px 16px 8px;
+  background-color: rgba(222, 239, 248, 0.877);
+  border: 0px transparent;
+  border-radius: 5px;
+  color: rgb(97, 4, 184);
+  font-size: 16px;
+  word-break: break-all; /* haven't found the best solution here yet, paragraphs are difficult to deal with */
+  -webkit-hyphens: auto;
+          hyphens: auto;
+  z-index: 1;
 }
 
 label {
-  position: relative;
-  color: #8898AA;
-  font-weight: 400;
-  height: 40px;
-  line-height: 40px;
-  margin-left: 20px;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: -o-flex;
+  margin: 0 8px;
+  font-size: 14px;
+  color: white;
+}
+
+.button_wrapper {
   display: flex;
-  -moz-flex-direction: row;
-  -o-flex-direction: row;
-  flex-direction: row;
-}
-
-.group label:not(:last-child) {
-  border-bottom: 1px solid #F0F5FA;
-}
-
-label > span {
-  width: 80px;
-  text-align: right;
-  margin-right: 30px;
-}
-
-.field {
-  background: transparent;
-  font-weight: 400;
-  border: 0;
-  color: #31325F;
-  outline: none;
-  flex: 1;
-  padding-right: 10px;
-  padding-left: 10px;
-  cursor: text;
-}
-
-.field::-webkit-input-placeholder {
-  color: #CFD7E0;
-}
-
-.field::-moz-placeholder {
-  color: #CFD7E0;
+  justify-content: flex-end;
 }
 
 button {
-  display: block;
-  background: #666EE8;
+  padding: 8px 14px;
+  margin: 20px 8px 0 0;
+  border-width: 0px;
+  border-radius: 5px;
   color: white;
-  cursor: pointer;
-  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  border: 0;
-  margin-top: 20px;
-  font-size: 15px;
-  font-weight: 500;
+  background-color: #b69269;
+  transition: 0.3s;
+  z-index: 1;
+}
+
+button:hover {
+  color: rgb(60, 35, 153);
+  background-color: white;
+}
+
+.star {
+  position: absolute;
+  transition: 1s;
+  overflow: hidden;
+  opacity: 1;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  z-index: -90;
+}
+
+.star svg {
+  height: 100%;
+  width: auto;
+}
+
+.star_inner {
+  height: 15px;
+}
+
+.cover {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  pointer-events: none;
+  height: 100vh;
   width: 100%;
-  height: 40px;
-  line-height: 38px;
-  outline: none;
+  z-index: 999;
+  overflow: hidden;
 }
 
-button:focus {
-  background: #555ABF;
+.ghost {
+  position: absolute;
+  padding: 8px 10px;
+  border: 0px transparent;
+  border-radius: 5px;
+  z-index: 1;
+  color: rgb(97, 4, 184);
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-button:active {
-  background: #43458B;
+.ghost > div {
+  margin: 0;
+  padding: 0;
+  transition: 5s;
 }
 
-.outcome {
-  float: left;
-  width: 100%;
-  padding-top: 8px;
-  min-height: 24px;
-  text-align: center;
+.blank {
+  width: 4px;
 }
 
-.success, .error {
-  display: none;
-  font-size: 13px;
+form.fade {
+  -webkit-animation: fade forwards ease 5s;
+          animation: fade forwards ease 5s;
 }
 
-.success.visible, .error.visible {
-  display: inline;
+@-webkit-keyframes fade {
+  0% {
+    opacity: 1;
+    transform: translate(0vw, 0) skew(0);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translate(0vw, 0) skew(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(50vw, -50vh) skew(-45deg);
+  }
 }
 
-.error {
-  color: #E4584C;
+@keyframes fade {
+  0% {
+    opacity: 1;
+    transform: translate(0vw, 0) skew(0);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translate(0vw, 0) skew(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(50vw, -50vh) skew(-45deg);
+  }
+}
+form.fade_in {
+  -webkit-animation: fade_in forwards ease 6s;
+          animation: fade_in forwards ease 6s;
 }
 
-.success {
-  color: #666EE8;
+@-webkit-keyframes fade_in {
+  0% {
+    opacity: 0;
+    transform: translate(-50vw, 150vh) skew(-45deg);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0) skew(0);
+  }
 }
 
-.success .token {
-  font-weight: 500;
-  font-size: 13px;
+@keyframes fade_in {
+  0% {
+    opacity: 0;
+    transform: translate(-50vw, 150vh) skew(-45deg);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0) skew(0);
+  }
+}
+::-moz-placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(140, 145, 216);
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(140, 145, 216);
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: rgb(140, 145, 216);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: rgb(140, 145, 216);
+}
+
+.sign {
+  position: absolute;
+  color: white;
+  bottom: 10px;
+  right: 10px;
+  font-size: 10px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }

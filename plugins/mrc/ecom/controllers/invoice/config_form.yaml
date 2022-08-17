@@ -1,0 +1,11 @@
+name: Invoice
+modelClass: Mrc\Ecom\Models\Invoice
+form: $/mrc/ecom/models/invoice/fields.yaml
+defaultRedirect: mrc/ecom/invoice
+create:
+    redirect: 'mrc/ecom/invoice/update/:id'
+    redirectClose: mrc/ecom/invoice
+update:
+    redirect: mrc/ecom/invoice
+    redirectClose: mrc/ecom/invoice
+preview: {  }

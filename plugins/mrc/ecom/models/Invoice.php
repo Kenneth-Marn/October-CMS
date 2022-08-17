@@ -1,12 +1,11 @@
 <?php namespace Mrc\Ecom\Models;
 
 use Model;
-use Queue;
 
 /**
  * Model
  */
-class Subscription extends Model
+class Invoice extends Model
 {
     use \October\Rain\Database\Traits\Validation;
     
@@ -14,22 +13,31 @@ class Subscription extends Model
 
     protected $dates = ['deleted_at'];
 
-    /**
-     * @var string The database table used by the model.
-     */
-    public $table = 'mrc_ecom_users_subscriptions';
-
+    protected $jsonable = ['total_discount_amounts'];
+    
     public $fillable = [
         'user_id',
         'product_id',
-        'start_date',
-        'end_date',
+        'billing_reason',
+        'amount_due',
+        'amount_paid',
+        'amount_remaining',
+        'attempt_count',
+        'paid',
+        'total',
+        'total_discount_amounts',
+        'status',
         'stripe_subscription_id',
-        'cancel_options',
-        'cancel_at',
-        'canceled_at'
+        'stripe_customer_id',
+        'stripe_invoice_id',
+        'invoice_pdf'
     ];
     
+    /**
+     * @var string The database table used by the model.
+     */
+    public $table = 'mrc_ecom_invoices';
+
     /**
      * @var array Validation rules
      */
@@ -48,11 +56,4 @@ class Subscription extends Model
             'key' => 'product_id'
         ]
     ];
-    
-    // public function afterUpdate()
-    // {   
-    //     if ($this->getOriginal('cancel_options') != $this->cancel_options) {
-    //         Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\UpdateSubscription', $this);
-    //     }
-    // }
 }

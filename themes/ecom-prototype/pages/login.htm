@@ -1,10 +1,14 @@
-title = "Login"
-layout = "default"
 url = "/login"
+layout = "default"
+title = "Login"
 
 [account]
 paramCode = "code"
 forceSecure = 0
 requirePassword = 0
+
+[session]
+security = "all"
+redirect = "home-page"
 ==
-{% component 'account' %}
+{% component 'account' %}{% component 'session' %}

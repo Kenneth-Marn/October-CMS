@@ -28,6 +28,7 @@ fields:
     amount:
         label: Amount
         span: auto
+        required: 1
         type: number
     duration:
         label: Duration

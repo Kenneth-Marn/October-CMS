@@ -28,3 +28,18 @@ fields:
         mode: datetime
         span: auto
         type: datepicker
+    stripe_subscription_id:
+        label: 'Stripe Subscription Id'
+        span: auto
+        readOnly: 1
+        type: text
+    canceled_at:
+        label: 'Cancelled At'
+        mode: datetime
+        span: auto
+        type: datepicker
+    cancel_at:
+        label: 'Cancel At'
+        span: auto
+        mode: datetime
+        type: datepicker

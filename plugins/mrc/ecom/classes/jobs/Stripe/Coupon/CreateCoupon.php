@@ -1,6 +1,6 @@
 <?php
 
-namespace Mrc\Ecom\Classes\Jobs\Stripe;
+namespace Mrc\Ecom\Classes\Jobs\Stripe\Coupon;
 
 use Log;
 use Mrc\Ecom\Models\Subscription;
@@ -13,7 +13,7 @@ class CreateCoupon
         Log::info('Create Coupon on Stripe');
         $stripe = new Stripe;
         
-        $subscription = $stripe->createCoupon($data);
+        $coupon = $stripe->createCoupon($data);
         $job->delete();
     }
 }

@@ -60,11 +60,11 @@ class Transaction extends ComponentBase
         $user = Auth::getUser();
         $data = Request::input();
         $this->slug = $this->param('slug');
-
+        
         $rules = [
             'stripeToken' => 'required'
         ];
-
+        
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
@@ -73,16 +73,11 @@ class Transaction extends ComponentBase
             try {
                 $this->page['slug'] = $this->slug = $this->param('slug');
                 $product = Product::where('slug', $this->slug)->first();
-                
-                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\CreateSubscription', ['user' => $user, 'product' => $product, 'stripeToken' => $data['stripeToken']]);
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\CreateSubscription', ['user' => $user, 'product' => $product, 'data' => $data]);
             } catch (Exception $e) {
                 $message =  $e->getMessage();
                 throw new ValidationException(['generalerror' => $message]);
             }
         }
-
-
-
-        //Log::info(print_r($customer, true));
     }
 }

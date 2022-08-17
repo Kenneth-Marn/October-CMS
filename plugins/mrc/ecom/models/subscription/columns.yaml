@@ -7,3 +7,30 @@ columns:
         sortable: true
         select: name
         relation: user
+    product_name:
+        label: 'Product Name'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+        select: name
+        relation: product
+    start_date:
+        label: 'Start Date'
+        type: datetime
+        searchable: true
+        invisible: true
+        sortable: true
+    end_date:
+        label: 'End Date'
+        type: datetime
+        searchable: true
+        invisible: true
+    cancel_at_the_end:
+        label: 'Cancel at the end'
+        type: switch
+        default: '0'
+    cancelled:
+        label: Cancelled
+        type: switch
+        searchable: false

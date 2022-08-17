@@ -42,6 +42,6 @@ class Coupon extends Model
     ];
     
     public function afterCreate() {
-        Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\CreateCoupon', $this);
+        Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Coupon\CreateCoupon', $this);
     }
 }
