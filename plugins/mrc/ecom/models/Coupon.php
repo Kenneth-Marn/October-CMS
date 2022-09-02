@@ -38,6 +38,13 @@ class Coupon extends Model
             'table' => 'mrc_ecom_coupons_products',
             'key' => 'coupon_id',
             'otherKey' => 'product_id'
+        ],
+        'subscriptions' => [
+            'Mrc\Ecom\Models\Subscription',
+            'table' => 'mrc_ecom_subscriptions_coupons',
+            'key' => 'coupon_id',
+            'otherKey' => 'subscription_id',
+            'pivot' => ['id', 'created_at', 'updated_at']
         ]    
     ];
     

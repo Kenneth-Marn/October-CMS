@@ -9,6 +9,8 @@ use Mrc\Ecom\Models\Product;
 use Stripe\StripeClient;
 use RainLab\User\Models\User;
 use Exception;
+use Mrc\Ecom\Models\Subscription;
+use Session;
 
 class Stripe
 {
@@ -78,32 +80,24 @@ class Stripe
         $product->save();
     }
 
-    public function updateSubscription($model)
+    public function updateSubscription($data)
     {
-        $today = time();
+        if ($data['data']['autoRecharge'] == 'false') {
+            $subscription = $this->stripeClient->subscriptionSchedules->update(
+                $data['subscription']['stripe_subscription_id'],
+                [
+                    'end_behavior' => 'cancel',
 
-        if ($model['cancel_options']) {
-            if ($model['cancel_options'] == 'cancel_at_the_end') {
-                $subscription = $this->stripeClient->subscriptions->update(
-                    $model['stripe_subscription_id'],
-                    [
-                        'cancel_at_period_end' => true,
-                        //'cancel_at' => $model['cancelled'] ? 1695168386 : null
-                    ]
-                );
-            } elseif ($model['cancel_options'] == 'cancel_at_custom_date') {
-                $subscription = $this->stripeClient->subscriptions->update(
-                    $model['stripe_subscription_id'],
-                    [
-                        'cancel_at_period_end' => false,
-                        'cancel_at' => strtotime($model['cancel_at'])
-                    ]
-                );
-            } elseif ($model['cancel_options'] == 'cancel_immediately') {
-                $this->stripeClient->subscriptions->cancel(
-                    $model['stripe_subscription_id']
-                );
-            }
+                ]
+            );
+        } else {
+            $subscription = $this->stripeClient->subscriptionSchedules->update(
+                $data['subscription']['stripe_subscription_id'],
+                [
+                    'end_behavior' => 'release',
+
+                ]
+            );
         }
 
         return $subscription;
@@ -113,15 +107,14 @@ class Stripe
     {
         $user = User::find($data['id']);
 
-        $forzenTime = strtotime('2022-08-16 00:00:01');
+        $forzenTime = strtotime("now");
         $testClock = $this->stripeClient->testHelpers->testClocks->create([
             'frozen_time' => $forzenTime,
         ]);
 
         $stripeCustomer = $this->stripeClient->customers->create([
             'description' => $data['name'],
-            'email' => $data['email'],
-            'test_clock' => $testClock->id
+            'email' => $data['email']
         ]);
 
         $user->stripe_customer_id = $stripeCustomer->id;
@@ -132,42 +125,73 @@ class Stripe
     public function addSourceCustomer($data, $stripeToken)
     {
         $user = User::find($data['id']);
-        $this->stripeClient->customers->update(
+        $customer = $this->stripeClient->customers->update(
             $user->stripe_customer_id,
             [
                 'source' => $stripeToken
             ]
         );
+        $user->stripe_card_id = $customer->default_source;
+        $user->save();
+        return $user;
     }
 
-    public function createSubscription($user, $product, $code = null)
+    public function createSubscription($model)
     {
-        $user = User::find($user['id']);
+        $user = User::find($model['user_id']);
+        $product = Product::find($model['product_id']);
+        $subScription = Subscription::find($model['id']);
 
-        try {
-
-            $payload = [
-                'customer' => $user->stripe_customer_id,
-                'items' => [
-                    ['price' => $product['stripe_price_id']],
-                ],
-            ];
-
-            if ($code) {
-                $coupon = Coupon::where('code', $code)->first();
-                $payload['promotion_code'] = $coupon->stripe_promotion_code_id;
-            }
-
-            $subscription = $this->stripeClient->subscriptions->create($payload);
-        } catch (\Stripe\Error\Base $e) {
-            // Code to do something with the $e exception object when an error occurs
-            echo ($e->getMessage());
-        } catch (Exception $e) {
-            // Catch any other non-Stripe exceptions
-            echo ($e->getMessage());
+        if (is_null($user->stripe_customer_id)) {
+            $user = $this->createCustomer($user);
         }
 
-        return $subscription;
+        try {
+            $itemPayload['items'] = [
+                [
+                    'price' => $product->stripe_price_id,
+                    'quantity' => 1,
+                ],
+            ];
+            
+            $payload = [
+                'customer' => $user->stripe_customer_id,
+                'start_date' => $subScription->start_date ? strtotime($subScription->start_date) : 'now'
+            ];
+
+            if ($subScription->end_date) {
+                $payload['end_behavior'] = 'cancel';
+                $itemPayload['end_date'] = strtotime($subScription->end_date); 
+            } else {
+                $payload['end_behavior'] = 'release';
+            }
+            
+            if (Session::has('couponCode')) {
+                $couponId = Coupon::where('code', Session::get('couponCode'))->value('stripe_coupon_id');
+                $itemPayload['coupon'] = $couponId;
+                Session::forget('couponCode');
+            }
+            
+            $payload['phases'] = [$itemPayload];
+
+            $subscriptionSchedule = $this->stripeClient->subscriptionSchedules->create($payload);
+            
+            $subScription->update([
+                'start_date' =>  gmdate("Y-m-d H:i:s", $subscriptionSchedule->current_phase->start_date),
+                'end_date' => gmdate("Y-m-d H:i:s", $subscriptionSchedule->current_phase->end_date),
+                'next_recharge_date' => gmdate("Y-m-d H:i:s", $subscriptionSchedule->current_phase->end_date),
+                'stripe_subscription_id' => $subscriptionSchedule->subscription,
+                'stripe_subscription_schedule_id' => $subscriptionSchedule->id
+            ]);
+        } catch (\Stripe\Error\Base $e) {
+            // Code to do something with the $e exception object when an error occurs
+            Log::error($e->getMessage());
+        } catch (Exception $e) {
+            // Catch any other non-Stripe exceptions
+            Log::error($e->getMessage());
+        }
+
+        return $subscriptionSchedule;
     }
 
     public function createCoupon($data)
@@ -201,15 +225,25 @@ class Stripe
         $coupon->save();
     }
 
-    public function moveTestClock($data)
+    public function getCardDetails($user)
     {
-        Log::info($data);
-        $newTestClock = $this->stripeClient->testHelpers->testClocks->advance(
-            $data['testClock'],
-            ['frozen_time' => $data['newTime']]
+        $carddetails = $this->stripeClient->customers->retrieveSource(
+            $user['stripe_customer_id'],
+            $user['stripe_card_id'],
         );
 
-        Log::info(print_r($newTestClock, true));
-        return 1;
+        return $carddetails;
+    }
+
+    public function updateCardDetails($user, $data)
+    {
+        $customer = $this->stripeClient->customers->update(
+            $user->stripe_customer_id,
+            ['source' => $data['stripeToken']]
+        );
+
+        $user->stripe_card_id = $customer->default_source;;
+        $user->save();
+        return $user;
     }
 }

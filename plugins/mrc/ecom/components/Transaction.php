@@ -9,10 +9,13 @@ use ValidationException;
 use Request;
 use Log;
 use Exception;
-use Stripe\StripeClient as StripeClient;
-use Session;
+use Mrc\Ecom\Models\Subscription;
 use Queue;
 use Auth;
+use Mrc\Ecom\Models\Coupon;
+use Mrc\Ecom\Services\CouponService;
+use Redirect;
+use Session;
 
 class Transaction extends ComponentBase
 {
@@ -22,6 +25,7 @@ class Transaction extends ComponentBase
      */
     public $product;
     public $slug;
+    public $price;
 
     public function componentDetails()
     {
@@ -44,6 +48,7 @@ class Transaction extends ComponentBase
 
         if ($product) {
             $this->page['product'] = $this->product = $product;
+            $this->page['price'] = $this->price = $product->price;
         } else {
             return $this->controller->run('404');
         }
@@ -58,26 +63,73 @@ class Transaction extends ComponentBase
     public function onPurchaseSubmit()
     {
         $user = Auth::getUser();
+        $product = Product::where('slug', $this->param('slug'))->first();
         $data = Request::input();
-        $this->slug = $this->param('slug');
-        
+
         $rules = [
-            'stripeToken' => 'required'
+            'stripeToken' => 'required',
         ];
-        
+
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
             throw new ValidationException($validator);
         } else {
             try {
-                $this->page['slug'] = $this->slug = $this->param('slug');
-                $product = Product::where('slug', $this->slug)->first();
-                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\CreateSubscription', ['user' => $user, 'product' => $product, 'data' => $data]);
+
+                try {
+                    $subscription = Subscription::create([
+                        'user_id' => $user->id,
+                        'product_id' => $product->id,
+                        'proration_behavior' => 'create_prorations'
+                    ]);
+
+                    Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\CreateSubscription', ['user' => $user, 'product' => $product, 'data' => $data]);
+                    return Redirect::to('/subscriptions');
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                    throw new ValidationException(['generalerror' => $e->getMessage()]);
+                }
             } catch (Exception $e) {
                 $message =  $e->getMessage();
                 throw new ValidationException(['generalerror' => $message]);
             }
         }
+    }
+
+    public function onApplyCoupon()
+    {
+        $data = Request::input();
+
+        $rules = [
+            'couponCode' => 'nullable|couponvalidate:' . $this->param('slug')
+        ];
+
+        $product = Product::where('slug', $this->param('slug'))->first();
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        } else {
+            $coupon = Coupon::where(['code' => $data['couponCode'], 'active' => 1])->first();
+
+            try {
+                $couponData = CouponService::calculateDiscountedPrice($product, $coupon);
+                Session::put('couponCode', $data['couponCode']);
+                $this->page['price'] = $this->price = $couponData['discountedPrice'];
+                $this->page['couponMessage'] = $this->couponMessage = $couponData['message'];
+            } catch (\ErrorException $e) {
+                Log::error($e->getMessage());
+                $this->page['couponMessage'] = $this->couponMessage = $e->getMessage();
+            }
+        }
+    }
+
+    public function onRemoveCoupon()
+    {
+        Session::forget('couponCode');
+        $product = Product::where('slug', $this->param('slug'))->first();
+        $this->page['price'] = $this->price = $product->price;
+        $this->page['couponMessage'] = $this->couponMessage = null;
     }
 }

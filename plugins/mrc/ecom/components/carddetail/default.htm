@@ -1,0 +1,163 @@
+{% set cardDetails = __SELF__.cardDetails %}
+
+{% if cardDetails %}
+<div class="wrapper flex_box">
+    <div class="cards">
+        <div class="face">
+            <div class="head">
+                <div class="title">
+                    Credit Card
+                    <div class="number">{{cardDetails.brand}}</div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="number-title">Card number:</div>
+                <div class="number">XXXX-XXXX-XXXX-{{cardDetails.last4}}</div>
+            </div>
+            <div class="dates">
+                <div>Expires:</div>
+                <div class="end">
+                    {{cardDetails.exp_month}}/{{cardDetails.exp_year}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>No Registered Card</p>
+{% endif %}
+
+
+
+<div class="wrapper flex_box">
+    <div class="cards">
+        <form id="payment-form" data-request="onUpdatePayment"
+            data-request-complete="clearToken(this, context, data, textStatus, jqXHR);" data-request-flash
+            data-request-validate>
+            <div class="group">
+                <label>
+                    <span>Name</span>
+                    <input id='cardholderName' name="cardholderName" class="field" />
+                </label>
+                <label>
+                    <span>Card</span>
+                    <div id="card-element" class="field"></div>
+                    <!-- Used to display form errors. -->
+                </label>
+            </div>
+            <div class="button_wrapper updatePayment">
+                <button>
+                    Update
+                </button>
+            </div>
+            <div class="outcome">
+                <div id="card-errors" role="alert"></div>
+                <div class="success">
+                    Success! Your Stripe token is <span class="token"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+    </form>
+</div>
+{% put scripts %}
+<script>
+
+    // Create a Stripe client.
+    var stripe = Stripe("{{ stripePublicKey }}");
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: "#32325d",
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#aab7c4"
+            }
+        },
+        invalid: {
+            color: "#fa755a",
+            iconColor: "#fa755a"
+        }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create("card", { hidePostalCode: true, style: style });
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount("#card-element");
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener("change", function (event) {
+        var displayError = document.getElementById("card-errors");
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = "";
+        }
+    });
+
+    $(document).on("click", ".updatePayment", function (event) {
+        console.log("httt");
+        $(this).attr("disabled", true);
+        event.preventDefault();
+        var options = {
+            name: $('#cardholderName').val(),
+        };
+
+        stripe.createToken(card, options).then(function (result) {
+            if (result.error) {
+                $('.subitPayment').attr('disabled', false);
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById("card-errors");
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token, this);
+            }
+        });
+    });
+
+    // Submit the form with the token ID.
+    function stripeTokenHandler(token, target) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        updatePayment(hiddenInput, form, function () {
+
+            var number = $('#card-errors').children().length;
+            if ($('#card-errors').children().length == 0) {
+                $('form').submit();
+            }
+        })
+    }
+
+    function updatePayment(hiddenInput, form, callback) {
+        var form = document.getElementById("payment-form");
+        form.appendChild(hiddenInput);
+        callback();
+    }
+
+    function clearToken(form, text, data, textStatus, jqXHR) {
+
+        $('input[name="stripeToken"]').remove();
+        if (textStatus == 'success') {
+            $('#payment-form').each(function () {
+                this.reset();
+            });
+            card.clear();
+        }
+
+        $('.subitPayment').attr('disabled', false);
+    }
+</script>
+{% endput %}

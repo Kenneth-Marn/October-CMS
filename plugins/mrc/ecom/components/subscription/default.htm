@@ -1,0 +1,67 @@
+{% set subscriptions = __SELF__.subscriptions %}
+
+<section>
+    <div>
+        <div class="container">
+            <div class="tiles row no-gutters my-5">
+                {% if subscriptions|length %}
+                {% for subscription in subscriptions %}
+                {% if subscription.cancel_at is null or subscription.canceled_at is null %}
+                {% set auto_recharge = 'true' %}
+                {% endif %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="tile"
+                        style="background-image:url('https://images.pexels.com/photos/6145852/pexels-photo-6145852.jpeg');">
+                        <div class="overlay" style="background-color:rgba(23, 65, 137, 0.75);">
+                            <h2 class="d-flex justify-content-between align-items-center">
+                                <span>Product Name: {{ subscription.product.name }}</span>
+                                <a class="tile-toggle" data-toggle="collapse" href="#collapse-Tile1" role="button"
+                                    aria-expanded="false" aria-controls="collapse-Tile1"><i
+                                        class="fas fa-chevron-down fa-2x"></i></a>
+                            </h2>
+                            <div class="collapse" id="collapse-Tile1">
+                                <ul>
+                                    <li>Start Date: {{ subscription.start_date }}</li>
+                                    <li>End Date: {{ subscription.end_date }}</li>
+                                </ul>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" class="auto-recharge" name='auto-recharge' {{auto_recharge is
+                                    defined ? 'checked' : 'unchecked' }}>
+                                <span class="slider round">Auto Recharge</span>
+                            </label>
+                            <div class="button_wrapper saveSubscription" subscription={{subscription.id}} >
+                                <button>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No Subscription</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+</section>
+
+{% put scripts %}
+<script>
+    $(document).on("click", ".saveSubscription", function (event) {
+        $(this).attr("disabled", true);
+        event.preventDefault();
+        $.request('onAutoRechargeUpdate', {
+            data: { 
+                autoRecharge: $('.auto-recharge').prop('checked'),
+                subscriptionId: $(this).attr("subscription")
+            },
+            loading: $.oc.stripeLoadIndicator,
+            flash: 1,
+            handleFlashMessage: function (message, type) {
+                $.oc.flashMsg({ text: message, class: type })
+            }
+        })
+    });
+</script>
+{% endput %}

@@ -27,7 +27,9 @@ class Subscription extends Model
         'stripe_subscription_id',
         'cancel_options',
         'cancel_at',
-        'canceled_at'
+        'canceled_at',
+        'next_recharge_date',
+        'stripe_subscription_schedule_id',
     ];
     
     /**
@@ -46,13 +48,21 @@ class Subscription extends Model
             'Mrc\Ecom\Models\Product',
             'table' => 'mrc_ecom_products',
             'key' => 'product_id'
+        ],
+    ];
+    
+    public $hasMany = [
+        'coupons' => [
+            'Mrc\Ecom\Models\Coupon',
+            'table' => 'mrc_ecom_subscriptions_coupons',
+            'key' => 'subscription_id',
+            'otherKey' => 'coupon_id',
+            'pivot' => ['id', 'created_at', 'updated_at']
         ]
     ];
     
-    // public function afterUpdate()
-    // {   
-    //     if ($this->getOriginal('cancel_options') != $this->cancel_options) {
-    //         Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\UpdateSubscription', $this);
-    //     }
-    // }
+    public function afterCreate()
+    {
+        Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\CreateStripeSubscription', $this);
+    }
 }

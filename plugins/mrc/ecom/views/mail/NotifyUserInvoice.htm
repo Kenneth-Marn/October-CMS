@@ -1,0 +1,17 @@
+<p>Hello {{ invoice.user.name }},</p>
+<ul>
+    <li>Product Name: {{ invoice.product.name }}</li>
+    <li>Period: {{ invoice.start_at|date("d/m/Y") }} - {{ invoice.end_at|date("d/m/Y") }}</li>
+    <li>Price: {{ invoice.product.price }}</li>
+    <li>Subtotal: {{ invoice.subtotal }}</li>
+    <li>Total: {{ invoice.total }}</li>
+    <li>Amount Paid: {{ invoice.amount_paid }}</li>
+    <li>Amount Remaining: {{ invoice.amount_remaining }}</li>
+    <li>Survey(s):
+        <ul>
+            {% for discount in invoice.total_discount_amounts %}
+            <li>{{ (discount.amount/100) }}</li>
+            {% endfor %}
+        </ul>
+    <li>
+</ul>

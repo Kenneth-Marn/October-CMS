@@ -1,0 +1,244 @@
+{% set invoices = __SELF__.invoices %} <section>
+    <div>
+      <div class="container">
+        <div class="tiles row no-gutters my-5"> {% if invoices|length %} {% for invoice in invoices %} <div class="col-lg-3 col-md-6">
+            <div class="tile" style="background-image:url('https://images.pexels.com/photos/6145852/pexels-photo-6145852.jpeg');">
+              <div class="overlay" style="background-color:rgba(23, 65, 137, 0.75);">
+                <div class="Box-root Padding-bottom--12">
+                  <table class="Table DataTable DataTable--hideLastDivider DataTable--size--medium">
+                    <thead class="Table-head DataTableHead">
+                      <tr class="Table-row DataTableHead-row">
+                        <td class=>
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-start;">
+                            <span>
+                              <span>Description</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--middle Table-cell--wrap--noWrap DataTableHead-cell" style="max-width: 100px; min-width: 100px; width: 100px;">
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-end;">
+                            <span class="Text-color--dark Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--noWrap Text-display--inline">
+                              <span>Qty</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--middle Table-cell--width--minimized Table-cell--wrap--noWrap DataTableHead-cell">
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-start;">
+                            <span class="Text-color--dark Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--noWrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--middle Table-cell--wrap--noWrap DataTableHead-cell" style="max-width: 150px; min-width: 150px; width: 150px;">
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-end;">
+                            <span class="Text-color--dark Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--noWrap Text-display--inline">
+                              <span>Unit price</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--middle Table-cell--wrap--noWrap DataTableHead-cell" style="max-width: 150px; min-width: 150px; width: 150px;">
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-end;">
+                            <span class="Text-color--dark Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--noWrap Text-display--inline">
+                              <span>Amount</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--middle Table-cell--width--minimized Table-cell--wrap--noWrap DataTableHead-cell">
+                          <div class="DataTableHead-cellInner" style="align-items: center; justify-content: flex-end;">
+                            <span class="Text-color--dark Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--noWrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody class="Table-body DataTable-body">
+                      <tr class="Table-row DataTable-row DataTable-row--color--white">
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline">
+                              <span class="Text-color--gray Text-fontSize--13 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--upper Text-wrap--wrap Text-display--inline">
+                                <span>
+                                  <span>{{ invoice.start_at|date("d/m/Y") }}</span> - <span>{{ invoice.end_at|date("d/m/Y")
+                                         }}</span>
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                        </td>
+                        <td data-test="quantity-placeholder" class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td data-test="unit-amount-placeholder" class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td data-test="amount-placeholder" class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="Table-row DataTable-row DataTable-row--color--white">
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline">
+                              <div class="Box-root" style="pointer-events: none;">
+                                <div class="Box-root Flex-flex Flex-alignItems--center Flex-direction--row Flex-justifyContent--flexStart Flex-wrap--nowrap" style="margin-left: -8px; margin-top: -8px;">
+                                  <div class="Box-root Box-hideIfEmpty Margin-top--8 Margin-left--8" style="pointer-events: auto;">
+                                    <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                                      {{ invoice.product.name }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-end;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline">
+                              <span>1</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-start;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline"></span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-end;">
+                            <span class="Text-color--default Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline">AUD{{ invoice.product.price }}</span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap DataTable-cell">
+                          <div class="DataTable-cellInner" style="align-items: flex-start; justify-content: flex-end;">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--tabular Text-typeface--base Text-wordBreak--word Text-wrap--wrap Text-display--inline">
+                              <span>AUD{{ invoice.product.price }}</span>
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="6" style="height: 8px;"></td>
+                      </tr>
+                    </tbody>
+                    <tbody class="Table-body DataTable-body">
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="4">
+                          <div class="Box-root Margin-all--4">
+                            <span class="Text-color--gray Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                                <span>Subtotal</span>
+                              </span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap">
+                          <div class="Box-root Margin-all--4 Padding-right--4">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>AUD{{ invoice.subtotal }}</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap"></td>
+                      </tr>
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="4">
+                          <div class="Box-root Margin-all--4">
+                            <span class="Text-color--gray Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                                <span>Total</span>
+                              </span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap">
+                          <div class="Box-root Margin-all--4 Padding-right--4">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>AUD{{ invoice.total }}</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap"></td>
+                      </tr>
+                    </tbody>
+                    <tbody class="Table-body DataTable-body">
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="4">
+                          <div class="Box-root Margin-all--4">
+                            <span class="Text-color--gray Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>Amount paid</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap">
+                          <div class="Box-root Margin-all--4 Padding-right--4">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>-AUD{{ invoice.amount_paid }}</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap"></td>
+                      </tr>
+                    </tbody>
+                    <tbody class="Table-body DataTable-body">
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="4">
+                          <div class="Box-root Margin-all--4">
+                            <span class="Text-color--gray Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                                <span>Amount Remaining</span>
+                              </span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap">
+                          <div class="Box-root Margin-all--4 Padding-right--4">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>AUD{{ invoice.amount_remaining }}</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap"></td>
+                      </tr>
+                    </tbody>
+                    <tbody class="Table-body DataTable-body">
+                      <tr class="Table-row">
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap" colspan="4">
+                          <div class="Box-root Margin-all--4">
+                            <span class="Text-color--gray Text-fontSize--14 Text-fontWeight--regular Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                                <span>Status</span>
+                              </span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--right Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap">
+                          <div class="Box-root Margin-all--4 Padding-right--4">
+                            <span class="Text-color--dark Text-fontSize--14 Text-fontWeight--medium Text-lineHeight--20 Text-numericSpacing--proportional Text-typeface--base Text-wrap--wrap Text-display--inline">
+                              <span>{{ invoice.status == 'paid' ? invoice.status :  (invoice.end_at|date('U') > 'now'|date('U') ? invoice.status : 'overdue' ) }}</span>
+                            </span>
+                          </div>
+                        </td>
+                        <td class="Table-cell Table-cell--align--left Table-cell--verticalAlign--top Table-cell--width--auto Table-cell--wrap--wrap"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div> {% endfor %} {% else %} <p>No Products</p> {% endif %} </div>
+      </div>
+    </div>
+  </section>

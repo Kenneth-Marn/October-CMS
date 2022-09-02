@@ -33,6 +33,12 @@ fields:
         span: auto
         readOnly: 1
         type: number
+    subtotal:
+        label: Subtotal
+        span: auto
+        readOnly: 1
+        hidden: 0
+        type: number
     attempt_count:
         label: 'Attempt Count'
         span: auto
@@ -43,18 +49,8 @@ fields:
         span: auto
         readOnly: 1
         type: number
-    paid:
-        label: Paid
-        span: auto
-        readOnly: 1
-        type: switch
     status:
         label: Status
-        span: auto
-        readOnly: 1
-        type: text
-    stripe_subscription_id:
-        label: 'Stripe Subscription Id'
         span: auto
         readOnly: 1
         type: text
@@ -63,8 +59,30 @@ fields:
         span: auto
         readOnly: 1
         type: text
-    stripe_invoice_id:
-        label: 'Stripe Invoice Id'
+    stripe_subscription_id:
+        label: 'Stripe Subscription Id'
         span: auto
         readOnly: 1
         type: text
+    stripe_invoice_id:
+        label: 'Stripe Invoice Id'
+        span: left
+        readOnly: 1
+        type: text
+    start_at:
+        label: 'Start At'
+        mode: datetime
+        span: auto
+        readOnly: 1
+        type: datepicker
+    end_at:
+        label: 'End At'
+        mode: datetime
+        span: auto
+        readOnly: 1
+        type: datepicker
+    paid:
+        label: Paid
+        span: auto
+        readOnly: 1
+        type: switch

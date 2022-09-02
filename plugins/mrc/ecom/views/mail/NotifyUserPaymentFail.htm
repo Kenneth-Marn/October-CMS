@@ -1,0 +1,10 @@
+subject = "Cutomer notification: Payment Failed"
+description = "Payment Failed"
+==
+Hello {{ firstName }},
+
+
+The payment attempted has been failed for {{ productName }} from {{ startAt }} to {{ endAt }}.
+The next atttempt will be at Period: {{ nextPaymentAttempt|date("d/m/Y") }}
+To update the payment method, {{ paymentLink }}
+

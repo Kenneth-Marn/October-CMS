@@ -4,6 +4,7 @@ namespace Mrc\Ecom\Classes\Jobs\Stripe\Subscription\Webhook;
 
 use Log;
 use Mrc\Ecom\Models\Subscription;
+use Mrc\Ecom\Services\Mailer;
 
 class SubscriptionUpdateWebhook
 {
@@ -25,7 +26,9 @@ class SubscriptionUpdateWebhook
             $payLoad['cancel_options'] = 'cancel_immediately';
         }
         
-        Subscription::where('stripe_subscription_id', $stripeSubscriptionId)->update($payLoad);
+        $subscription = Subscription::where('stripe_subscription_id', $stripeSubscriptionId)->first();
+        $subscription->update($payLoad);
+        Mailer::notifySubscriptionDeleted($subscription);
         $job->delete();
     }
 }

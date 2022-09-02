@@ -4,10 +4,15 @@
   <form id="payment-form" data-request="onPurchaseSubmit"
     data-request-complete="clearToken(this, context, data, textStatus, jqXHR);" data-request-flash
     data-request-validate>
+
     <div class="group">
       <label>
         <span>Coupon</span>
-        <input name="coupon" class="field" />
+        <input name="coupon" id="coupon" class="field" />
+        <div class="button_wrapper" id="couponButton">
+          {% partial '::applycouponPartial' %}
+        </div>
+        <div class="error-msg" data-validate-for="coupon"></div>
       </label>
       <label>
         <span>Name</span>
@@ -24,14 +29,13 @@
         submit
       </button>
     </div>
-    <div class="outcome">
-      <div id="card-errors" role="alert"></div>
-      <div class="success">
-        Success! Your Stripe token is <span class="token"></span>
-      </div>
+    <div id="pricePartial">
+      {% partial '::pricePartial' %}
     </div>
   </form>
 </div>
+
+
 
 {% put scripts %}
 <script>
@@ -76,8 +80,50 @@
     }
   });
 
+  $(document).on("click", ".applyCoupon", function (event) {
+    $(this).attr("disabled", true);
+    event.preventDefault();
+    let couponCode = $('#coupon').val();
+
+    if (typeof couponCode === 'string' && couponCode.trim() !== '') {
+      $.request('onApplyCoupon', {
+        flash: 1,
+        data: { couponCode: couponCode },
+        update: { '{{ __SELF__ }}::pricePartial': '#pricePartial', '{{ __SELF__ }}::removecouponPartial': '#couponButton' },
+        afterUpdate: function () {
+          $('#coupon').attr('disabled', true);
+        },
+        error: function (content, type) {
+          $('.applyCoupon').removeAttr("disabled");
+          $('#coupon').attr('disabled', true);
+          $.oc.flashMsg({ text: "Invalid Coupon", class: 'error' });
+        }
+      });
+    } else {
+      $(this).removeAttr("disabled");
+      $.oc.flashMsg({ text: "Coupon is empty", class: 'error' });
+    }
+  });
+
+  $(document).on("click", ".removeCoupon", function (event) {
+    $(this).attr("disabled", true);
+    event.preventDefault();
+    $.request('onRemoveCoupon', {
+      update: { '{{ __SELF__ }}::pricePartial': '#pricePartial', '{{ __SELF__ }}::applycouponPartial': '#couponButton' },
+      afterUpdate: function () {
+          $('#coupon').removeAttr('disabled').val('');
+        },
+      error: function (content, type) {
+        $('.applyCoupon').removeAttr("disabled");
+        console.log(content);
+        $.oc.flashMsg({ text: "Invalid Coupon", class: 'error' });
+      }
+    });
+  });
+
+
+
   $(document).on("click", ".submitPayment", function (event) {
-    console.log("here");
     $(this).attr("disabled", true);
     event.preventDefault();
     var options = {
@@ -121,7 +167,6 @@
   }
 
   function clearToken(form, text, data, textStatus, jqXHR) {
-
     $('input[name="stripeToken"]').remove();
     if (textStatus == 'success') {
       $('#payment-form').each(function () {

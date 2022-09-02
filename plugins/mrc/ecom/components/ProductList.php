@@ -1,7 +1,6 @@
 <?php namespace Mrc\Ecom\Components;
 
 use Cms\Classes\ComponentBase;
-use ApplicationException;
 use Mrc\Ecom\Models\Product;
 
 class ProductList extends ComponentBase
@@ -9,7 +8,7 @@ class ProductList extends ComponentBase
 
     /**
      * Registers the hero to be accessible within the component
-     * @var Klyp\Surveys\Models\Surveys
+     * @var Mrc\Ecom\Models\Product
      */
     public $products;
     

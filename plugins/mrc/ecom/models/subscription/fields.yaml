@@ -15,31 +15,35 @@ fields:
         label: 'Start Date'
         mode: date
         span: auto
-        readOnly: 1
+        readOnly: 0
         type: datepicker
+        comment: 'Leave Blank For Now'
     end_date:
         label: 'End Date'
         mode: date
         span: auto
-        readOnly: 1
+        readOnly: 0
         type: datepicker
-    disabled_at:
-        label: 'Disable At'
+        comment: 'Leave Blank for Auto Calculation'
+    canceled_at:
+        label: 'Cancelled At'
         mode: datetime
         span: auto
+        readOnly: 1
+        type: datepicker
+    cancel_at:
+        label: 'Cancel At'
+        span: auto
+        mode: datetime
+        readOnly: 1
         type: datepicker
     stripe_subscription_id:
         label: 'Stripe Subscription Id'
         span: auto
         readOnly: 1
         type: text
-    canceled_at:
-        label: 'Cancelled At'
-        mode: datetime
+    stripe_subscription_schedule_id:
+        label: 'Stripe Subscription Schedule ID'
         span: auto
-        type: datepicker
-    cancel_at:
-        label: 'Cancel At'
-        span: auto
-        mode: datetime
-        type: datepicker
+        readOnly: 1
+        type: text

@@ -17,7 +17,7 @@ class StripeController extends Controller
      **/
     public function handleWebHook(Request $request)
     {
-        Log::info($request->event->type);
+        Log::info(print_r($request->event->type, true));
         switch ($request->event->type) {
             case 'invoice.created':
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoiceCreateWebhook', $request->event);
@@ -26,10 +26,13 @@ class StripeController extends Controller
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoiceUpdateWebhook', $request->event);
                 break;
             case 'invoice.paid':
-                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoiceUpdateWebhook', $request->event);
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoicePaymentPaidWebhook', $request->event);
                 break;
             case 'invoice.payment_succeeded':
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoiceUpdateWebhook', $request->event);
+                break;
+            case 'invoice.payment_failed':
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoicePaymentFailWebhook', $request->event);
                 break;
             case 'invoice.finalized':
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook\InvoiceUpdateWebhook', $request->event);
@@ -38,7 +41,11 @@ class StripeController extends Controller
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\Webhook\SubscriptionUpdateWebhook', $request->event);
                 break;
             case 'customer.subscription.deleted':
-                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\Webhook\SubscriptionUpdateWebhook', $request->event);
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\Webhook\SubscriptionDeleteWebhook', $request->event);
+            case 'customer.source.deleted':
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Customer\Webhook\CustomerSourceDeleteWebhook', $request->event);
+            case 'customer.source.created':
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Customer\Webhook\CustomerSourceCreateWebhook', $request->event);
             default:
                 break;
         }

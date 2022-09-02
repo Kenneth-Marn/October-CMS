@@ -36,11 +36,6 @@ columns:
         label: Total
         type: number
         searchable: true
-    total_discount_amounts:
-        label: 'Total Discount Amount'
-        type: number
-        searchable: true
-        sortable: true
     status:
         label: Status
         type: text

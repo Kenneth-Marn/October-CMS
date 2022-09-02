@@ -20,8 +20,11 @@ class BuilderTableCreateMrcEcomInvoices extends Migration
             $table->integer('attempt_count');
             $table->boolean('paid');
             $table->decimal('total', 10, 0);
+            $table->decimal('subtotal', 10, 0);
             $table->string('total_discount_amounts');
             $table->string('status');
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

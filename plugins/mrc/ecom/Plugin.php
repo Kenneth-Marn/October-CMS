@@ -1,7 +1,11 @@
 <?php namespace Mrc\Ecom;
 
+use Mrc\Ecom\Rules\CouponValidateRule;
 use System\Classes\PluginBase;
 use RainLab\User\Models\User;
+use Log;
+use Validator;
+use Queue;
 
 class Plugin extends PluginBase
 {
@@ -10,6 +14,9 @@ class Plugin extends PluginBase
         return [
             '\Mrc\Ecom\Components\ProductList' => 'productlist',
             '\Mrc\Ecom\Components\Transaction' => 'transaction',
+            '\Mrc\Ecom\Components\Subscription' => 'subscription',
+            '\Mrc\Ecom\Components\CardDetail' => 'carddetail',
+            '\Mrc\Ecom\Components\InvoiceList' => 'invoicelist',
         ];
     }
 
@@ -28,6 +35,12 @@ class Plugin extends PluginBase
                 'otherKey' => 'product_id',
                 'pivot' => ['start_date', 'end_date', 'disabled_at']
             ];
+            
+            $model->bindEvent('model.afterCreate', function () use ($model){
+                Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Customer\CreateCustomer', $model);
+            });
         });
+       
+        Validator::extend('couponvalidate', CouponValidateRule::class);
     }
 }

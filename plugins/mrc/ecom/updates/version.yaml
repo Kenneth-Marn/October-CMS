@@ -45,3 +45,12 @@
 1.0.16:
     - 'Updated table mrc_ecom_users_subscriptions'
     - builder_table_update_mrc_ecom_users_subscriptions_5.php
+1.0.17:
+    - 'Updated table users'
+    - update_users_table_add_stripe_card_id.php
+1.0.18:
+    - 'Updated table mrc_ecom_invoices'
+    - builder_table_update_mrc_ecom_invoices.php
+1.0.19:
+    - 'Created table mrc_ecom_subscriptions_coupons'
+    - builder_table_create_mrc_ecom_subscriptions_coupons.php

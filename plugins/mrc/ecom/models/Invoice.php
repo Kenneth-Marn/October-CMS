@@ -25,12 +25,16 @@ class Invoice extends Model
         'attempt_count',
         'paid',
         'total',
+        'subtotal',
         'total_discount_amounts',
         'status',
         'stripe_subscription_id',
         'stripe_customer_id',
         'stripe_invoice_id',
-        'invoice_pdf'
+        'invoice_pdf',
+        'start_at',
+        'end_at',
+        'next_payment_attempt'
     ];
     
     /**

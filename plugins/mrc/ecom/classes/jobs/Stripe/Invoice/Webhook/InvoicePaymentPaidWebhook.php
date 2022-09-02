@@ -4,21 +4,17 @@ namespace Mrc\Ecom\Classes\Jobs\Stripe\Invoice\Webhook;
 
 use Log;
 use Mrc\Ecom\Models\Invoice;
-use Mrc\Ecom\Models\Subscription;
+use Mrc\Ecom\Services\Mailer;
 
-
-class InvoiceCreateWebhook
+class InvoicePaymentPaidWebhook
 {
     public function fire($job, $event = null)
     {
         $invoiceObject = (object) $event['data']['object'];
-        $stripeSubscriptionId = $invoiceObject->subscription;
         
-        $subscription = Subscription::where('stripe_subscription_id', $stripeSubscriptionId)->first();
+        $invoice = Invoice::where('stripe_invoice_id', $invoiceObject->id)->first();
         
-        $invoice = Invoice::create([
-            'user_id' => $subscription->user->id,
-            'product_id' => $subscription->product->id,
+        $invoice->update([
             'billing_reason' => $invoiceObject->billing_reason,
             'amount_due' => floatval($invoiceObject->amount_due/100),
             'amount_paid' => floatval($invoiceObject->amount_paid/100),
@@ -33,10 +29,12 @@ class InvoiceCreateWebhook
             'stripe_customer_id' => $invoiceObject->customer,
             'stripe_invoice_id' => $invoiceObject->id,
             'invoice_pdf' => $invoiceObject->invoice_pdf,
-            'start_at' => gmdate("Y-m-d H:i:s", $invoiceObject->period_start),
-            'end_at' => gmdate("Y-m-d H:i:s", $invoiceObject->period_end),
+            'start_at' => gmdate("Y-m-d H:i:s", $invoiceObject->lines['data'][0]['period']['start']),
+            'end_at' => gmdate("Y-m-d H:i:s", $invoiceObject->lines['data'][0]['period']['end']),
             'next_payment_attempt' => gmdate("Y-m-d H:i:s", $invoiceObject->next_payment_attempt),
         ]);
+        
+        Mailer::sendInvoice($invoice);
         
         $job->delete();
     }
