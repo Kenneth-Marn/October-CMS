@@ -21,12 +21,16 @@ class Product extends Model
      * @var string The database table used by the model.
      */
     public $table = 'mrc_ecom_products';
-
+    
     /**
      * @var array Validation rules
      */
     public $rules = [];
 
+    public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+
+    public $translatable = ['name'];
+    
     public $belongsToMany = [
         'users' => [
             'RainLab\User\Models\User',

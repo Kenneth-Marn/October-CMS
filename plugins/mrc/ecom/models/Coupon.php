@@ -39,13 +39,16 @@ class Coupon extends Model
             'key' => 'coupon_id',
             'otherKey' => 'product_id'
         ],
+           
+    ];
+    
+    public $hasMany = [
         'subscriptions' => [
             'Mrc\Ecom\Models\Subscription',
             'table' => 'mrc_ecom_subscriptions_coupons',
             'key' => 'coupon_id',
-            'otherKey' => 'subscription_id',
-            'pivot' => ['id', 'created_at', 'updated_at']
-        ]    
+            'otherKey' => 'subscription_id'
+        ]  
     ];
     
     public function afterCreate() {

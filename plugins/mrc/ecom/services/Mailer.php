@@ -4,6 +4,7 @@ namespace Mrc\Ecom\Services;
 
 use Log;
 use Mail;
+use Mrc\Ecom\Models\Subscription;
 
 class Mailer extends Mail
 {
@@ -20,6 +21,11 @@ class Mailer extends Mail
             $message->subject('myoresearch.com notification: subscription has been paid');
             $message->from('noreply@myoresearch.com', 'myoresearch.com');
         });
+    }
+    
+    public static function sendTestEmail() {
+       $subscription = Subscription::find(88);
+       $subscription->sendMail();
     }
     
     public static function notifyPaymentFail($invoice)

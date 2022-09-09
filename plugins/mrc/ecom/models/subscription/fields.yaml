@@ -47,3 +47,14 @@ fields:
         span: auto
         readOnly: 1
         type: text
+    payment:
+        label: Payment
+        span: auto
+        type: paymentbox
+        readOnly: 1
+    coupons:
+        label: Coupons
+        span: auto
+        nameFrom: name
+        descriptionFrom: description
+        type: relation

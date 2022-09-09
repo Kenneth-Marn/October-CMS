@@ -24,3 +24,18 @@ columns:
         type: number
         searchable: true
         sortable: true
+    duration:
+        label: Duration
+        type: text
+        searchable: true
+        sortable: true
+    valid_from:
+        label: 'Valid From'
+        type: datetime
+        searchable: true
+        sortable: true
+    valid_till:
+        label: 'Valid Till'
+        type: datetime
+        searchable: true
+        sortable: true

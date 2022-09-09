@@ -23,6 +23,8 @@ class BuilderTableCreateMrcEcomCoupons extends Migration
             $table->boolean('active');
             $table->string('stripe_coupon_id');
             $table->string('stripe_promotion_code_id');
+            $table->timestamp('valid_from')->nullable();
+            $table->timestamp('valid_till')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

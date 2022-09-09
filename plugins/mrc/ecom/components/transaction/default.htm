@@ -96,6 +96,7 @@
         error: function (content, type) {
           $('.applyCoupon').removeAttr("disabled");
           $('#coupon').attr('disabled', true);
+          console.log(content);
           $.oc.flashMsg({ text: "Invalid Coupon", class: 'error' });
         }
       });
@@ -121,18 +122,16 @@
     });
   });
 
-
-
   $(document).on("click", ".submitPayment", function (event) {
     $(this).attr("disabled", true);
     event.preventDefault();
     var options = {
       name: $('#cardholderName').val(),
     };
-
+    
     stripe.createToken(card, options).then(function (result) {
       if (result.error) {
-        $('.subitPayment').attr('disabled', false);
+        $('.submitPayment').attr('disabled', false);
         // Inform the user if there was an error.
         var errorElement = document.getElementById("card-errors");
         errorElement.textContent = result.error.message;

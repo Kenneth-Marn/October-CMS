@@ -13,20 +13,20 @@ class InvoiceCreateWebhook
     {
         $invoiceObject = (object) $event['data']['object'];
         $stripeSubscriptionId = $invoiceObject->subscription;
-        
+    
         $subscription = Subscription::where('stripe_subscription_id', $stripeSubscriptionId)->first();
         
         $invoice = Invoice::create([
             'user_id' => $subscription->user->id,
             'product_id' => $subscription->product->id,
             'billing_reason' => $invoiceObject->billing_reason,
-            'amount_due' => floatval($invoiceObject->amount_due/100),
-            'amount_paid' => floatval($invoiceObject->amount_paid/100),
-            'amount_remaining' => floatval($invoiceObject->amount_remaining/100),
+            'amount_due' => $invoiceObject->amount_due/100,
+            'amount_paid' => $invoiceObject->amount_paid/100,
+            'amount_remaining' => $invoiceObject->amount_remaining/100,
             'attempt_count' => $invoiceObject->attempt_count,
-            'paid' => floatval($invoiceObject->paid/100),
-            'total' => floatval($invoiceObject->total/100),
-            'subtotal' => floatval($invoiceObject->subtotal/100),
+            'paid' => $invoiceObject->paid/100,
+            'total' => $invoiceObject->total/100,
+            'subtotal' => $invoiceObject->subtotal/100,
             'total_discount_amounts' => $invoiceObject->total_discount_amounts,
             'status' => $invoiceObject->status,
             'stripe_subscription_id' => $invoiceObject->subscription,

@@ -20,6 +20,19 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerFormWidgets()
+    {
+        return [
+            'Mrc\Ecom\FormWidgets\Userbox' => [
+                'label' => 'Userbox field',
+                'code' => 'userbox'
+            ],
+            'Mrc\Ecom\FormWidgets\Paymentbox' => [
+                'label' => 'Paymentbox field',
+                'code' => 'paymentbox'
+            ]
+        ];
+    }
     public function registerSettings()
     {
     }
@@ -38,6 +51,10 @@ class Plugin extends PluginBase
             
             $model->bindEvent('model.afterCreate', function () use ($model){
                 Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Customer\CreateCustomer', $model);
+            });
+            
+            $model->bindEvent('model.getFullNameAttribute', function () use ($model){
+                return $model->name . " ";
             });
         });
        

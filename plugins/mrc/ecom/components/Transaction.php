@@ -16,6 +16,8 @@ use Mrc\Ecom\Models\Coupon;
 use Mrc\Ecom\Services\CouponService;
 use Redirect;
 use Session;
+use Mrc\Ecom\Services\Stripe;
+use Mrc\Ecom\Services\Mailer;
 
 class Transaction extends ComponentBase
 {
@@ -65,7 +67,8 @@ class Transaction extends ComponentBase
         $user = Auth::getUser();
         $product = Product::where('slug', $this->param('slug'))->first();
         $data = Request::input();
-
+        $stripe = new Stripe;
+        
         $rules = [
             'stripeToken' => 'required',
         ];
@@ -77,19 +80,20 @@ class Transaction extends ComponentBase
         } else {
             try {
 
-                try {
-                    $subscription = Subscription::create([
-                        'user_id' => $user->id,
-                        'product_id' => $product->id,
-                        'proration_behavior' => 'create_prorations'
-                    ]);
-
-                    Queue::push('Mrc\Ecom\Classes\Jobs\Stripe\Subscription\CreateSubscription', ['user' => $user, 'product' => $product, 'data' => $data]);
-                    return Redirect::to('/subscriptions');
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
-                    throw new ValidationException(['generalerror' => $e->getMessage()]);
+                if ($user->stripe_customer_id) {
+                    $stripe->addSourceCustomer($user, $data['stripeToken']);
+                } else {
+                    $stripe->createCustomer($user);
+                    $stripe->addSourceCustomer($user, $data['stripeToken']);
                 }
+                
+                $subscription = Subscription::create([
+                    'user_id' => $user->id,
+                    'product_id' => $product->id,
+                    'proration_behavior' => 'create_prorations'
+                ]);
+
+                return Redirect::to('/subscriptions');
             } catch (Exception $e) {
                 $message =  $e->getMessage();
                 throw new ValidationException(['generalerror' => $message]);
@@ -102,7 +106,7 @@ class Transaction extends ComponentBase
         $data = Request::input();
 
         $rules = [
-            'couponCode' => 'nullable|couponvalidate:' . $this->param('slug')
+            'couponCode' => 'nullable|couponvalidate:' . $this->param('slug') . ',' . $data['couponCode']
         ];
 
         $product = Product::where('slug', $this->param('slug'))->first();

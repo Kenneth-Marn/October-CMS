@@ -34,3 +34,8 @@ columns:
         label: Cancelled
         type: switch
         searchable: false
+    id:
+        label: ID
+        type: number
+        searchable: true
+        sortable: true

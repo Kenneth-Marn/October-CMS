@@ -11,9 +11,9 @@ class CouponService
     {
         $discountedPrice = 0;
         
-        if ($coupon->type = '%') {
+        if ($coupon->type == '%') {
             $discountedPrice = self::getPercentageDiscountedPrice($product->price, $coupon->amount);
-        } elseif ($coupon->type = '$') {
+        } elseif ($coupon->type == '$') {
             $discountedPrice = self::getDollarDiscountPrice($product->price, $coupon->amount);
         } else {
             throw new \ErrorException('Invalid Coupon Type');
@@ -44,6 +44,7 @@ class CouponService
     private static function getDollarDiscountPrice($price, $amount)
     {
         $discountedPrice = $price - $amount;
+        Log::info($discountedPrice);
         return $discountedPrice;
     }
 }

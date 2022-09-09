@@ -11,13 +11,11 @@ use Mrc\Ecom\Models\Product;
 class CouponValidateRule
 {
 
-    public $message = 'true';
-
     public function validate($attribute, $value, $params)
     {
 
         $user = Auth::getUser();
-        [$slug] = $params;
+        [$slug, $code] = $params;
         $product = Product::where('slug', $slug)->first();
         $coupon = Coupon::where(['code' => $value, 'active' => 1])->first();
 
@@ -26,24 +24,32 @@ class CouponValidateRule
                 $this->verifyCouponWithProduct($coupon, $product) && 
                 $this->verifyCouponProperties($coupon)) {
                     
-                   return true; 
+                return true; 
             } else {
+                Log::error('cannot find the active coupon this code');
                 return false;
             }
         } else {
             return false;
         }
 
-
-
         return false;
     }
 
     public function message()
     {
-        return 'Invalid Coupon';
+        return 'Invalid Coupon :code';
     }
+    
+    public function replace($message, $attribute, $rule, $params)
+    {
+        [$slug, $code] = $params;
 
+        $message = str_replace(':code', $code, $message);
+
+        return $message;
+    }
+    
     public function verifyCouponWithCustomer($coupon, $user)
     {
         if ($coupon->users()->exists()) {
