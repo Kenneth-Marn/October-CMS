@@ -10,14 +10,13 @@ use Request;
 use Log;
 use Exception;
 use Mrc\Ecom\Models\Subscription;
-use Queue;
 use Auth;
 use Mrc\Ecom\Models\Coupon;
 use Mrc\Ecom\Services\CouponService;
 use Redirect;
 use Session;
 use Mrc\Ecom\Services\Stripe;
-use Mrc\Ecom\Services\Mailer;
+
 
 class Transaction extends ComponentBase
 {

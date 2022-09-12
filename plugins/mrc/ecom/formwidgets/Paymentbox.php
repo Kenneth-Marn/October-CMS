@@ -3,8 +3,6 @@
 namespace Mrc\Ecom\FormWidgets;
 
 use Backend\Classes\FormWidgetBase;
-use Config;
-use Log;
 
 class PaymentBox extends FormWidgetBase
 {

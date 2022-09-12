@@ -104,4 +104,9 @@ class Subscription extends Model
             throw new \Exception("Invalid Model!");
         }
     }
+    
+    public function beforeUpdate()
+    {
+        unset($this->payment);
+    }
 }

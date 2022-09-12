@@ -55,6 +55,4 @@ fields:
     coupons:
         label: Coupons
         span: auto
-        nameFrom: name
-        descriptionFrom: description
-        type: relation
+        type: couponbox

@@ -30,6 +30,10 @@ class Plugin extends PluginBase
             'Mrc\Ecom\FormWidgets\Paymentbox' => [
                 'label' => 'Paymentbox field',
                 'code' => 'paymentbox'
+            ],
+            'Mrc\Ecom\FormWidgets\Couponbox' => [
+                'label' => 'Couponbox field',
+                'code' => 'couponbox'
             ]
         ];
     }
